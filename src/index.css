@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.main-container{
+    @apply lg:max-w-7xl md:max-w-3xl sm:max-w-xl mx-auto 
+}
+
+.primary-btn{
+    @apply bg-slate-700 text-white hover:text-black
+}
