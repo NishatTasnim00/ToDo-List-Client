@@ -2,11 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-
-.main-container{
-    @apply lg:max-w-7xl md:max-w-3xl sm:max-w-xl mx-auto 
+.main-container {
+  @apply lg:max-w-7xl md:max-w-3xl sm:max-w-xl mx-auto;
 }
 
-.primary-btn{
-    @apply bg-slate-700 text-white hover:text-black
+.primary-btn {
+  @apply bg-slate-700 text-white hover:text-black;
+}
+.active {
+  @apply bg-gray-100 px-5 py-3 rounded-lg;
+}
+.text-li {
+	@apply font-semibold text-lg text-gray-950 hover:text-gray-950 active:text-primary;
 }

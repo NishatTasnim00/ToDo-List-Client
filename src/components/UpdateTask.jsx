@@ -1,13 +1,14 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useContext, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { BiEdit } from "react-icons/bi";
 import { authContext } from "../provider/AuthProviders";
+import Select from "react-select";
 
 const UpdateTask = ({ task, handleUpdate }) => {
   const { user } = useContext(authContext);
   let [isOpen, setIsOpen] = useState(false);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, control } = useForm();
   const { _id, title, assign_to, assign_by, description } = task;
 
   function closeModal() {
@@ -18,17 +19,15 @@ const UpdateTask = ({ task, handleUpdate }) => {
     setIsOpen(true);
   }
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     handleUpdate(data);
     closeModal();
   };
 
   return (
     <>
-      <button
-        onClick={openModal}
-      >
-        <BiEdit size={30} className="hover:text-slate-500 "/>
+      <button onClick={openModal}>
+        <BiEdit size={20} className="hover:text-slate-500 " />
       </button>
       <div className="fixed  flex items-center justify-center"></div>
 
@@ -118,8 +117,31 @@ const UpdateTask = ({ task, handleUpdate }) => {
                             placeholder="Task Description"
                           />
                         </div>
+
+                        <Controller
+                          name="status"
+                          control={control}
+                          render={({ field }) => (
+                            <Select
+                              value={field.value}
+                              onChange={(selectedOption) => {
+                                field.onChange(selectedOption.value);
+                              }}
+                              isClearable
+                              options={[
+                                { label: "Pending", value: "pending" },
+                                { label: "In Progress", value: "InProgress" },
+                                { label: "Completed", value: "completed" },
+                              ]}
+                            />
+                          )}
+                        />
+
                         <div className="w-full p-5 ">
-                          <button type="submit" className="btn btn-block primary-btn">
+                          <button
+                            type="submit"
+                            className="btn btn-block primary-btn"
+                          >
                             Update
                           </button>
                         </div>

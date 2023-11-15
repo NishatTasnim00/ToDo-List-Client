@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import Swal from "sweetalert2";
-import toast, { Toaster } from "react-hot-toast";
+
+import toast from "react-hot-toast";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -11,28 +11,34 @@ import { authContext } from "../../provider/AuthProviders";
 import { saveUser } from "../../auth/users";
 
 const validationSchema = yup.object().shape({
+  name: yup.string().required("Name is required"),
+  email: yup
+    .string()
+    .email("Invalid email address")
+    .required("Email is required"),
+
   password: yup
     .string()
     .test(
       "length",
       "Password must be at least 6 characters long",
       (value) => value.length >= 6
-    ),
-  //     .test(
-  //       "uppercase",
-  //       "Password must contain at least one uppercase letter",
-  //       (value) => /[A-Z]/.test(value)
-  //     )
-  //     .test(
-  //       "specialChar",
-  //       "Password must contain at least one special character",
-  //       (value) => /[!@#$%^&*]/.test(value)
-  //     )
-  //     .required("Password is required"),
-  //   confirmPassword: yup
-  //     .string()
-  //     .oneOf([yup.ref("password"), null], "Passwords must need to match")
-  //     .required("Confirm Password is required"),
+    )
+    .test(
+      "uppercase",
+      "Password must contain at least one uppercase letter",
+      (value) => /[A-Z]/.test(value)
+    )
+    .test(
+      "specialChar",
+      "Password must contain at least one special character",
+      (value) => /[!@#$%^&*]/.test(value)
+    )
+    .required("Password is required"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must need to match")
+    .required("Confirm Password is required"),
 });
 
 const SignUp = () => {
@@ -59,7 +65,7 @@ const SignUp = () => {
         updateUserProfile(data.name, data.photoUrl)
           .then((res) => {
             saveUser(loggedInUser);
-            console.log(loggedInUser)
+            console.log(loggedInUser);
             toast.success("Profile Updated Successfully");
           })
           .catch((error) => {
@@ -83,12 +89,12 @@ const SignUp = () => {
               <span className="label-text">Name</span>
             </label>
             <input
-              {...register("name", { required: true })}
+              {...register("name")}
               placeholder="name"
               className="input input-bordered w-full"
             />
-            {errors.Name?.type === "required" && (
-              <p className="text-base-100">Name is required</p>
+            {errors.name?.type === "required" && (
+              <p className="text-red-500 text-sm">Name is required</p>
             )}
           </div>
 
@@ -99,13 +105,13 @@ const SignUp = () => {
             <input
               // ToDO:required: true
 
-              {...register("photoUrl", { required: false })}
+              {...register("photoUrl", { required: true })}
               aria-invalid={errors.photoUrl ? "true" : "false"}
               placeholder="photo Url"
               className="input input-bordered w-full"
             />
             {errors.photoUrl?.type === "required" && (
-              <p className="text-base-100">Photo Url is required</p>
+              <p className="text-red-500 text-sm">Photo Url is required</p>
             )}
           </div>
 
@@ -122,7 +128,7 @@ const SignUp = () => {
               placeholder="email"
               className="input input-bordered w-full"
             />
-            {errors.email && <p className="text-base-100">Email is required</p>}
+            {errors.email && <p className="text-red-500 text-sm">Email is required</p>}
           </div>
           <div>
             <label className="label">
@@ -146,7 +152,7 @@ const SignUp = () => {
               </button>
             </div>
             {errors.password && (
-              <p className="text-base-100">{errors.password.message}</p>
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
             )}
           </div>
 
@@ -172,7 +178,7 @@ const SignUp = () => {
               </button>
             </div>
             {errors.confirmPassword && (
-              <p className="text-base-100">{errors.confirmPassword.message}</p>
+              <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
             )}
           </div>
 
@@ -183,7 +189,7 @@ const SignUp = () => {
           </div>
           <p>
             <small>
-              Already have an account?<Link to="/login">LogIn</Link>
+              Already have an account?<Link to="/">LogIn</Link>
             </small>
           </p>
         </form>

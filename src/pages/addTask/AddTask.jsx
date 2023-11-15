@@ -28,10 +28,9 @@ const AddTask = () => {
 
   return (
    <>
-   <Navbar />
-   <h1 className="text-center text-2xl font-bold my-10">Add a Task</h1>
+   
+   <h1 className="text-center text-2xl font-bold my-20">Add New Task</h1>
 
-    <div className=" flex justify-center items-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full lg:w-1/2 mx-auto border rounded-lg"
@@ -53,6 +52,12 @@ const AddTask = () => {
             <span className=""></span>
           </label>
           <input {...register("assign_by")} value={user.displayName} required />
+        </div>
+        <div className="w-full px-5 hidden">
+          <label className="label">
+            <span className=""></span>
+          </label>
+          <input {...register("status")} value="pending" required />
         </div>
 
         <div className="w-full px-5">
@@ -84,7 +89,7 @@ const AddTask = () => {
           </button>
         </div>
       </form>
-    </div></>
+</>
   );
 };
 
